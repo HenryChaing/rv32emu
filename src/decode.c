@@ -489,7 +489,6 @@ static inline bool op_op_imm(rv_insn_t *ir, const uint32_t insn)
             else if(rs1==0){ir->opcode = rv_insn_li;}
             else{ir->opcode = rv_insn_addi;}
         }
-
         break;
     case 1: /* SLLI: Shift Left Logical */
         ir->opcode = rv_insn_slli;
