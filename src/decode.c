@@ -1732,7 +1732,7 @@ static inline bool op_cflwsp(rv_insn_t *ir, const uint32_t insn)
 
 /* C.FSWSP: CSS-Format
  *  15    13 12    7 6   2 1  0
- * | funct3 |  imm  | rs2 | op |
+ * | funct3 |  imm  | rs2 | op | 
  */
 static inline bool op_cfswsp(rv_insn_t *ir, const uint32_t insn)
 {
