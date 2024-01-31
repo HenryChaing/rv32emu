@@ -730,18 +730,13 @@ static inline bool op_branch(rv_insn_t *ir, const uint32_t insn)
 
     /* decode B-type */
     decode_btype(ir, insn);
-    int rs1,rs2;
-    rs1 = ir->rs1;
-    rs2 = ir->rs2;
     /* dispatch from funct3 field */
     switch (decode_funct3(insn)) {
     case 0: /* BEQ: Branch if Equal */
-        if(rs1==14 && rs2==0){ir->opcode = rv_insn_beq01400;}
-        else{ir->opcode = rv_insn_beq;}
+        ir->opcode = rv_insn_beq;
         break;
     case 1: /* BNE: Branch if Not Equal */
-        if(rs1==14 && rs2==0){ir->opcode = rv_insn_bne01400;} 
-        else{ir->opcode = rv_insn_bne;}
+        ir->opcode = rv_insn_bne;
         break;
     case 4: /* BLT: Branch if Less Than */
         ir->opcode = rv_insn_blt;
