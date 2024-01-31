@@ -449,7 +449,9 @@ static inline bool op_op_imm(rv_insn_t *ir, const uint32_t insn)
 
     /* decode I-type */
     decode_itype(ir, insn);
-
+    int rd,rs1,imm;
+    rd = ir->rd;
+    rs1 = ir->rs1;
     /* nop can be implemented as "addi x0, x0, 0".
      * Any integer computational instruction writing into "x0" is NOP.
      */
@@ -461,7 +463,21 @@ static inline bool op_op_imm(rv_insn_t *ir, const uint32_t insn)
     /* dispatch from funct3 field */
     switch (decode_funct3(insn)) {
     case 0: /* ADDI: Add Immediate */
-        ir->opcode = rv_insn_addi;
+        if(rd==rs1){
+            if(rd==2){ir->opcode = rv_insn_addi0202;}
+            else if(rd==15){ir->opcode = rv_insn_addi015015;}
+            else if(rd==10){ir->opcode = rv_insn_addi010010;}
+            else if(rd==11){ir->opcode = rv_insn_addi011011;}
+            else if(rd==19){ir->opcode = rv_insn_addi019019;}
+            else if(rd==14){ir->opcode = rv_insn_addi014014;}
+            else{ir->opcode = rv_insn_addi;}
+        }else{
+            if(rd==10 && rs1==2){ir->opcode = rv_insn_addi01002;}
+            else if(rd==11 && rs1==10){ir->opcode = rv_insn_addi011010;}
+            else if(rd==11 && rs1==2){ir->opcode = rv_insn_addi01102;}
+            else if(rd==14 && rs1==11){ir->opcode = rv_insn_addi014011;}
+            else{ir->opcode = rv_insn_addi;}
+        }
         break;
     case 1: /* SLLI: Shift Left Logical */
         ir->opcode = rv_insn_slli;
@@ -721,14 +737,22 @@ static inline bool op_branch(rv_insn_t *ir, const uint32_t insn)
 
     /* decode B-type */
     decode_btype(ir, insn);
-
+    int rs1,rs2;
+    rs1 = ir->rs1;
+    rs2 = ir->rs2;
     /* dispatch from funct3 field */
     switch (decode_funct3(insn)) {
     case 0: /* BEQ: Branch if Equal */
-        ir->opcode = rv_insn_beq;
+        if(rs1==14 && rs2==0){ir->opcode = rv_insn_beq01400;}
+        else if(rs1==14 && rs2==12){ir->opcode = rv_insn_beq014012;}
+        else{ir->opcode = rv_insn_beq;}
         break;
     case 1: /* BNE: Branch if Not Equal */
-        ir->opcode = rv_insn_bne;
+        if(rs1==12 && rs2==13){ir->opcode = rv_insn_bne012013;}
+        else if(rs1==14 && rs2==0){ir->opcode = rv_insn_bne01400;}
+        else if(rs1==19 && rs2==0){ir->opcode = rv_insn_bne01900;}
+        else if(rs1==5 && rs2==7){ir->opcode = rv_insn_bne0507;}
+        else{ir->opcode = rv_insn_bne;}
         break;
     case 4: /* BLT: Branch if Less Than */
         ir->opcode = rv_insn_blt;
@@ -1692,7 +1716,7 @@ static inline bool op_cflwsp(rv_insn_t *ir, const uint32_t insn)
 
 /* C.FSWSP: CSS-Format
  *  15    13 12    7 6   2 1  0
- * | funct3 |  imm  | rs2 | op |
+ * | funct3 |  imm  | rs2 | op | 
  */
 static inline bool op_cfswsp(rv_insn_t *ir, const uint32_t insn)
 {
