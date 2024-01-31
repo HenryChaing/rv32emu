@@ -453,6 +453,7 @@ static inline bool op_op_imm(rv_insn_t *ir, const uint32_t insn)
     rd = ir->rd;
     rs1 = ir->rs1;
     imm = ir->imm;
+    
     /* nop can be implemented as "addi x0, x0, 0".
      * Any integer computational instruction writing into "x0" is NOP.
      */
@@ -732,7 +733,7 @@ static inline bool op_branch(rv_insn_t *ir, const uint32_t insn)
 
     /* decode B-type */
     decode_btype(ir, insn);
-    
+
     /* dispatch from funct3 field */
     switch (decode_funct3(insn)) {
     case 0: /* BEQ: Branch if Equal */
