@@ -465,11 +465,7 @@ static inline bool op_op_imm(rv_insn_t *ir, const uint32_t insn)
     switch (decode_funct3(insn)) {
     case 0: /* ADDI: Add Immediate */
         if(rd==rs1){
-            if(rd==2){ir->opcode = rv_insn_addi0202;}
-            else if(rd==15){ir->opcode = rv_insn_addi015015;}
-            else if(rd==10){ir->opcode = rv_insn_addi010010;}
-            else if(rd==11){ir->opcode = rv_insn_addi011011;}
-            else if(rd==19){ir->opcode = rv_insn_addi019019;}
+            if(rd==15){ir->opcode = rv_insn_addi015015;}
             else if(rd==14){ir->opcode = rv_insn_addi014014;}
             else if(rd==12){ir->opcode = rv_insn_addi012012;}
             else if(rd==13){ir->opcode = rv_insn_addi013013;}
@@ -479,11 +475,7 @@ static inline bool op_op_imm(rv_insn_t *ir, const uint32_t insn)
             else if(imm==-1){ir->opcode = rv_insn_dec;}
             else{ir->opcode = rv_insn_addi;}
         }else{
-            if(rd==10 && rs1==2){ir->opcode = rv_insn_addi01002;}
-            else if(rd==11 && rs1==10){ir->opcode = rv_insn_addi011010;}
-            else if(rd==11 && rs1==2){ir->opcode = rv_insn_addi01102;}
-            else if(rd==14 && rs1==11){ir->opcode = rv_insn_addi014011;}
-            else if(rd==13 && rs1==8){ir->opcode = rv_insn_addi01308;}
+            if(rd==13 && rs1==8){ir->opcode = rv_insn_addi01308;}
             else if(rd==8 && rs1==14){ir->opcode = rv_insn_addi08014;}
             else if(imm==0){ir->opcode = rv_insn_mv;}
             else if(rs1==0){ir->opcode = rv_insn_li;}
