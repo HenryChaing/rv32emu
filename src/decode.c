@@ -449,10 +449,10 @@ static inline bool op_op_imm(rv_insn_t *ir, const uint32_t insn)
 
     /* decode I-type */
     decode_itype(ir, insn);
-    int rd,rs1,imm;
+    int rd,rs1;
     rd = ir->rd;
     rs1 = ir->rs1;
-    imm = ir->imm;
+
     /* nop can be implemented as "addi x0, x0, 0".
      * Any integer computational instruction writing into "x0" is NOP.
      */
