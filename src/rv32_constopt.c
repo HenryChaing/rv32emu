@@ -120,7 +120,7 @@ CONSTOPT(addi, {
     } else
         info->is_constant[ir->rd] = false;
 })
-
+ 
 CONSTOPT(addi0202, {if (info->is_constant[2]) {ir->imm += info->const_val[2];info->is_constant[2] = true;info->const_val[2] = ir->imm;ir->opcode = rv_insn_lui;ir->impl = dispatch_table[ir->opcode];} else{info->is_constant[2] = false;}	})
 CONSTOPT(addi010010, {if (info->is_constant[10]) {ir->imm += info->const_val[10];info->is_constant[10] = true;info->const_val[10] = ir->imm;ir->opcode = rv_insn_lui;ir->impl = dispatch_table[ir->opcode];} else{info->is_constant[10] = false;}	})
 CONSTOPT(addi014014, {if (info->is_constant[14]) {ir->imm += info->const_val[14];info->is_constant[14] = true;info->const_val[14] = ir->imm;ir->opcode = rv_insn_lui;ir->impl = dispatch_table[ir->opcode];} else{info->is_constant[14] = false;}	})
