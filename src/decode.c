@@ -476,20 +476,6 @@ static inline bool op_op_imm(rv_insn_t *ir, const uint32_t insn)
         else if(rd==rs1 && imm==-1){ir->opcode = rv_insn_dec;}
         else{ir->opcode = rv_insn_addi;}
         
-        /*
-        if(rd==rs1){
-            if(rd==15){ir->opcode = rv_insn_addi015015;}
-            else if(rd==14){ir->opcode = rv_insn_addi014014;}
-            else if(rd==2){ir->opcode = rv_insn_addi0202;}
-            else if(rd==10){ir->opcode = rv_insn_addi010010;}
-            else if(imm==1){ir->opcode = rv_insn_inc;}
-            else if(imm==-1){ir->opcode = rv_insn_dec;}
-            else{ir->opcode = rv_insn_addi;}
-        } 
-        else if(imm==0){ir->opcode = rv_insn_mv;}
-        else if(rs1==0){ir->opcode = rv_insn_li;}
-        else{ir->opcode = rv_insn_addi;}
-        */
         break;
     case 1: /* SLLI: Shift Left Logical */
         ir->opcode = rv_insn_slli;
