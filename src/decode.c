@@ -515,7 +515,7 @@ static inline bool op_auipc(rv_insn_t *ir, const uint32_t insn)
 {
     /* inst  imm[31:12] rd opcode
      * -----+----------+--+-------
-     * AUPIC imm[31:12] rd 0010111
+     * AUPIC imm[31:12] rd 0010111 
      */
 
     /* decode U-type */
