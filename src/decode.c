@@ -465,10 +465,9 @@ static inline bool op_op_imm(rv_insn_t *ir, const uint32_t insn)
     /* dispatch from funct3 field */
     switch (decode_funct3(insn)) {
     case 0: /* ADDI: Add Immediate */
-        if(imm==0){ir->opcode = rv_insn_mv;}
-        else if(rd==rs1 && imm==1){ir->opcode = rv_insn_inc;}
+        if(rd==rs1 && imm==1){ir->opcode = rv_insn_inc;}
+        else if(imm==0){ir->opcode = rv_insn_mv;}
         else if(rd==rs1 && imm==-1){ir->opcode = rv_insn_dec;}
-        else if(rs1==0){ir->opcode = rv_insn_li;}
         else{ir->opcode = rv_insn_addi;}
         break;
     case 1: /* SLLI: Shift Left Logical */
