@@ -603,7 +603,6 @@ RVOP(
     }))
 
 RVOP(addi0202,{rv->X[2] = rv->X[2] + ir->imm;},X64({ld, S32, RAX, X, rs1;alu32_imm, 32, 0x81, 0, RAX, imm;st, S32, RAX, X, rd;}))
-RVOP(addi010010,{rv->X[10] = rv->X[10] + ir->imm;},X64({ld, S32, RAX, X, rs1;alu32_imm, 32, 0x81, 0, RAX, imm;st, S32, RAX, X, rd;}))
 RVOP(addi014014,{rv->X[14] = rv->X[14] + ir->imm;},X64({ld, S32, RAX, X, rs1;alu32_imm, 32, 0x81, 0, RAX, imm;st, S32, RAX, X, rd;}))
 RVOP(addi015015,{rv->X[15] = rv->X[15] + ir->imm;},X64({ld, S32, RAX, X, rs1;alu32_imm, 32, 0x81, 0, RAX, imm;st, S32, RAX, X, rd;}))
 RVOP(mv,{rv->X[ir->rd] = rv->X[ir->rs1];},X64({ld, S32, RAX, X, rs1;alu32_imm, 32, 0x81, 0, RAX, imm;st, S32, RAX, X, rd;}))

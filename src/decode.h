@@ -82,7 +82,6 @@ enum op_field {
     _(mret, 1, 4, 0, ENC(rs1, rd))                     \
     /* RISC-V Specialized Instruction */                \
     _(addi0202, 0, 4, 1, ENC(rs1, rd))                     \
-    _(addi010010, 0, 4, 1, ENC(rs1, rd))                     \
     _(addi014014, 0, 4, 1, ENC(rs1, rd))                     \
     _(addi015015, 0, 4, 1, ENC(rs1, rd))                     \
     _(mv, 0, 4, 1, ENC(rs1, rd))                     \
