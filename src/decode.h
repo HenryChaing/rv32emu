@@ -80,6 +80,14 @@ enum op_field {
     _(sret, 0, 4, 0, ENC(rs1, rd))                     \
     _(hret, 0, 4, 0, ENC(rs1, rd))                     \
     _(mret, 1, 4, 0, ENC(rs1, rd))                     \
+    /* RISC-V Specialized Instruction */               \
+    _(addi0202, 0, 4, 1, ENC(rs1, rd))                 \
+    _(addi014014, 0, 4, 1, ENC(rs1, rd))               \
+    _(addi015015, 0, 4, 1, ENC(rs1, rd))               \
+    _(mv, 0, 4, 1, ENC(rs1, rd))                       \
+    _(li, 0, 4, 1, ENC(rs1, rd))                       \
+    _(inc, 0, 4, 1, ENC(rs1, rd))                      \
+    _(dec, 0, 4, 1, ENC(rs1, rd))                      \
     /* RV32 Zifencei Standard Extension */             \
     IIF(RV32_HAS(Zifencei))(                           \
         _(fencei, 1, 4, 0, ENC(rs1, rd))               \

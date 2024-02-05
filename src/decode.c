@@ -449,7 +449,10 @@ static inline bool op_op_imm(rv_insn_t *ir, const uint32_t insn)
 
     /* decode I-type */
     decode_itype(ir, insn);
-
+    int rd, rs1, imm;
+    rd = ir->rd;
+    rs1 = ir->rs1;
+    imm = ir->imm;
     /* nop can be implemented as "addi x0, x0, 0".
      * Any integer computational instruction writing into "x0" is NOP.
      */
@@ -461,7 +464,23 @@ static inline bool op_op_imm(rv_insn_t *ir, const uint32_t insn)
     /* dispatch from funct3 field */
     switch (decode_funct3(insn)) {
     case 0: /* ADDI: Add Immediate */
-        ir->opcode = rv_insn_addi;
+        if (rd == 15 && rs1 == 15) {
+            ir->opcode = rv_insn_addi015015;
+        } else if (rd == 14 && rs1 == 14) {
+            ir->opcode = rv_insn_addi014014;
+        } else if (rd == 2 && rs1 == 2) {
+            ir->opcode = rv_insn_addi0202;
+        } else if (imm == 0) {
+            ir->opcode = rv_insn_mv;
+        } else if (rs1 == 0) {
+            ir->opcode = rv_insn_li;
+        } else if (rd == rs1 && imm == 1) {
+            ir->opcode = rv_insn_inc;
+        } else if (rd == rs1 && imm == -1) {
+            ir->opcode = rv_insn_dec;
+        } else {
+            ir->opcode = rv_insn_addi;
+        }
         break;
     case 1: /* SLLI: Shift Left Logical */
         ir->opcode = rv_insn_slli;

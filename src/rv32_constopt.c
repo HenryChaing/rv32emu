@@ -60,6 +60,7 @@ CONSTOPT(jalr, {
         ir->opcode = rv_insn_jal;                                   \
         ir->impl = dispatch_table[ir->opcode];                      \
     }
+
 /* clang-format on */
 
 /* BEQ: Branch if Equal */
@@ -119,6 +120,83 @@ CONSTOPT(addi, {
     } else
         info->is_constant[ir->rd] = false;
 })
+CONSTOPT(addi0202, {
+    if (info->is_constant[2]) {
+        ir->imm += info->const_val[2];
+        info->is_constant[2] = true;
+        info->const_val[2] = ir->imm;
+        ir->opcode = rv_insn_lui;
+        ir->impl = dispatch_table[ir->opcode];
+    } else {
+        info->is_constant[2] = false;
+    }
+})
+CONSTOPT(addi014014, {
+    if (info->is_constant[14]) {
+        ir->imm += info->const_val[14];
+        info->is_constant[14] = true;
+        info->const_val[14] = ir->imm;
+        ir->opcode = rv_insn_lui;
+        ir->impl = dispatch_table[ir->opcode];
+    } else {
+        info->is_constant[14] = false;
+    }
+})
+CONSTOPT(addi015015, {
+    if (info->is_constant[15]) {
+        ir->imm += info->const_val[15];
+        info->is_constant[15] = true;
+        info->const_val[15] = ir->imm;
+        ir->opcode = rv_insn_lui;
+        ir->impl = dispatch_table[ir->opcode];
+    } else {
+        info->is_constant[15] = false;
+    }
+})
+CONSTOPT(mv, {
+    if (info->is_constant[ir->rs1]) {
+        ir->imm += info->const_val[ir->rs1];
+        info->is_constant[ir->rd] = true;
+        info->const_val[ir->rd] = ir->imm;
+        ir->opcode = rv_insn_lui;
+        ir->impl = dispatch_table[ir->opcode];
+    } else {
+        info->is_constant[ir->rd] = false;
+    }
+})
+CONSTOPT(li, {
+    if (info->is_constant[ir->rs1]) {
+        ir->imm += info->const_val[ir->rs1];
+        info->is_constant[ir->rd] = true;
+        info->const_val[ir->rd] = ir->imm;
+        ir->opcode = rv_insn_lui;
+        ir->impl = dispatch_table[ir->opcode];
+    } else {
+        info->is_constant[ir->rd] = false;
+    }
+})
+CONSTOPT(inc, {
+    if (info->is_constant[ir->rs1]) {
+        ir->imm += info->const_val[ir->rs1];
+        info->is_constant[ir->rd] = true;
+        info->const_val[ir->rd] = ir->imm;
+        ir->opcode = rv_insn_lui;
+        ir->impl = dispatch_table[ir->opcode];
+    } else {
+        info->is_constant[ir->rd] = false;
+    }
+})
+CONSTOPT(dec, {
+    if (info->is_constant[ir->rs1]) {
+        ir->imm += info->const_val[ir->rs1];
+        info->is_constant[ir->rd] = true;
+        info->const_val[ir->rd] = ir->imm;
+        ir->opcode = rv_insn_lui;
+        ir->impl = dispatch_table[ir->opcode];
+    } else {
+        info->is_constant[ir->rd] = false;
+    }
+})
 
 /* SLTI place the value 1 in register rd if register rs1 is less than the
  * signextended immediate when both are treated as signed numbers, else 0 is
@@ -134,6 +212,7 @@ CONSTOPT(slti, {
     } else
         info->is_constant[ir->rd] = false;
 })
+
 
 /* SLTIU places the value 1 in register rd if register rs1 is less than the
  * immediate when both are treated as unsigned numbers, else 0 is written to rd.
@@ -186,6 +265,7 @@ CONSTOPT(andi, {
     } else
         info->is_constant[ir->rd] = false;
 })
+
 
 /* SLLI performs logical left shift on the value in register rs1 by the shift
  * amount held in the lower 5 bits of the immediate.

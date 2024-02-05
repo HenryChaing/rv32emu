@@ -302,6 +302,7 @@ RVOP(
     rv->PC = PC;                                                             \
     return true;
 
+
 /* In RV32I and RV64I, if the branch is taken, set pc = pc + offset, where
  * offset is a multiple of two; else do nothing. The offset is 13 bits long.
  *
@@ -624,6 +625,83 @@ RVOP(
         end;
         alu32imm, 32, 0x81, 0, VR1, imm;
     }))
+RVOP(
+    addi0202,
+    { rv->X[2] = rv->X[2] + ir->imm; },
+    GEN({
+        rald, VR0, rs1;
+        map, VR1, rd;
+        cond, regneq;
+        mov, VR0, VR1;
+        end;
+        alu32imm, 32, 0x81, 0, VR1, imm;
+    }))
+RVOP(
+    addi014014,
+    { rv->X[14] = rv->X[14] + ir->imm; },
+    GEN({
+        rald, VR0, rs1;
+        map, VR1, rd;
+        cond, regneq;
+        mov, VR0, VR1;
+        end;
+        alu32imm, 32, 0x81, 0, VR1, imm;
+    }))
+RVOP(
+    addi015015,
+    { rv->X[15] = rv->X[15] + ir->imm; },
+    GEN({
+        rald, VR0, rs1;
+        map, VR1, rd;
+        cond, regneq;
+        mov, VR0, VR1;
+        end;
+        alu32imm, 32, 0x81, 0, VR1, imm;
+    }))
+RVOP(
+    li,
+    { rv->X[ir->rd] = (ir->imm); },
+    GEN({
+        rald, VR0, rs1;
+        map, VR1, rd;
+        cond, regneq;
+        mov, VR0, VR1;
+        end;
+        alu32imm, 32, 0x81, 0, VR1, imm;
+    }))
+RVOP(
+    mv,
+    { rv->X[ir->rd] = rv->X[ir->rs1]; },
+    GEN({
+        rald, VR0, rs1;
+        map, VR1, rd;
+        cond, regneq;
+        mov, VR0, VR1;
+        end;
+        alu32imm, 32, 0x81, 0, VR1, imm;
+    }))
+RVOP(
+    inc,
+    { rv->X[ir->rd] = rv->X[ir->rs1] + 1; },
+    GEN({
+        rald, VR0, rs1;
+        map, VR1, rd;
+        cond, regneq;
+        mov, VR0, VR1;
+        end;
+        alu32imm, 32, 0x81, 0, VR1, imm;
+    }))
+RVOP(
+    dec,
+    { rv->X[ir->rd] = rv->X[ir->rs1] - 1; },
+    GEN({
+        rald, VR0, rs1;
+        map, VR1, rd;
+        cond, regneq;
+        mov, VR0, VR1;
+        end;
+        alu32imm, 32, 0x81, 0, VR1, imm;
+    }))
 
 /* SLTI place the value 1 in register rd if register rs1 is less than the
  * signextended immediate when both are treated as signed numbers, else 0 is
@@ -642,6 +720,7 @@ RVOP(
         ldimm, VR1, 0;
         jmpoff;
     }))
+
 
 /* SLTIU places the value 1 in register rd if register rs1 is less than the
  * immediate when both are treated as unsigned numbers, else 0 is written to rd.
@@ -700,6 +779,7 @@ RVOP(
         end;
         alu32imm, 32, 0x81, 4, VR1, imm;
     }))
+
 
 FORCE_INLINE void shift_func(riscv_t *rv, const rv_insn_t *ir)
 {
